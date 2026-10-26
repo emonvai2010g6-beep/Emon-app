@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#070816">
+<title>Emon TikTok Downloader</title>
+<style>
+:root{--glow:#00eaff;--glow2:#ff00d4;--glow3:#6c4dff;--bg:#060713;--panel:rgba(10,15,39,.9);--line:rgba(0,234,255,.65);--text:#f5f8ff;--muted:#b7c6e8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 10% 5%,color-mix(in srgb,var(--glow) 15%,transparent),transparent 35%),radial-gradient(ellipse at 90% 25%,color-mix(in srgb,var(--glow2) 12%,transparent),transparent 30%),var(--bg);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:var(--text);overflow-x:hidden;transition:background 1s ease}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:linear-gradient(120deg,transparent 30%,color-mix(in srgb,var(--glow) 4%,transparent),transparent 70%);animation:ambient 7s ease-in-out infinite alternate}
+@keyframes ambient{from{transform:translateX(-10%);opacity:.5}to{transform:translateX(10%);opacity:1}}
+.wrap{width:min(100% - 28px,1050px);margin:auto;padding:20px 0 28px}
+nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 18px;border:1px solid var(--line);border-radius:20px;background:#080b1bdc;box-shadow:0 0 20px color-mix(in srgb,var(--glow) 20%,transparent);transition:border-color 1s,box-shadow 1s}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:21px}.brandmark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--glow),var(--glow2));color:#080816;font-size:25px;box-shadow:0 0 18px var(--glow);transition:box-shadow 1s}
+nav a{color:var(--muted);text-decoration:none;font-size:14px;margin-left:16px}nav a:hover{color:var(--glow)}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:20px;padding:54px 8px 36px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;color:var(--glow);background:#0b1126;box-shadow:0 0 18px color-mix(in srgb,var(--glow) 15%,transparent);font-size:13px}
+h1{font-size:clamp(38px,7vw,70px);line-height:1.02;letter-spacing:-2px;margin:18px 0 15px}h1 span{background:linear-gradient(100deg,var(--glow),#fff,var(--glow2));background-clip:text;color:transparent;filter:drop-shadow(0 0 16px color-mix(in srgb,var(--glow) 30%,transparent));transition:filter 1s}
+.lead{font-size:clamp(16px,2.5vw,21px);color:#d5e6ff;line-height:1.7;margin:0 0 20px}
+.tags{display:flex;flex-wrap:wrap;gap:9px}.tag{border:1px solid var(--line);border-radius:13px;padding:10px 13px;background:#0b1024;color:#eaf7ff;font-size:13px;box-shadow:0 0 13px color-mix(in srgb,var(--glow) 12%,transparent);transition:all .7s}
+.visual{min-height:290px;display:grid;place-items:center;position:relative}
+.orbit{position:absolute;width:min(85%,320px);aspect-ratio:1;border:2px solid var(--glow);border-radius:50%;box-shadow:0 0 25px var(--glow),inset 0 0 25px color-mix(in srgb,var(--glow) 30%,transparent);animation:spin 9s linear infinite,orbitGlow 2s ease-in-out infinite alternate}
+.orbit:after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:var(--glow2);box-shadow:0 0 20px var(--glow2);top:10%;left:16%}
+@keyframes spin{to{transform:rotate(360deg)}}@keyframes orbitGlow{from{opacity:.55}to{opacity:1}}
+.phone{z-index:1;width:190px;height:280px;border:2px solid var(--glow);border-radius:30px;padding:12px;background:linear-gradient(145deg,#171d43,#070914);box-shadow:0 0 24px var(--glow),0 0 65px color-mix(in srgb,var(--glow2) 25%,transparent);transform:rotate(5deg);animation:float 3.5s ease-in-out infinite alternate;transition:border-color 1s,box-shadow 1s}
+@keyframes float{from{translate:0 4px;rotate:3deg}to{translate:0 -10px;rotate:7deg}}
+.screen{height:100%;border-radius:20px;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--glow2) 45%,#121a49),#080a1b 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;overflow:hidden}
+.play{width:70px;height:70px;border-radius:24px;display:grid;place-items:center;font-size:32px;color:#06101c;background:linear-gradient(135deg,var(--glow),var(--glow2));box-shadow:0 0 30px var(--glow);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.1);box-shadow:0 0 42px var(--glow)}}
+.screen small{color:#fff;font-weight:700}.equalizer{display:flex;gap:5px;align-items:center;height:28px}.equalizer i{width:5px;border-radius:8px;background:var(--glow);animation:bars .7s ease-in-out infinite alternate}.equalizer i:nth-child(2n){animation-delay:.25s}.equalizer i:nth-child(3n){animation-delay:.45s}@keyframes bars{to{height:24px}from{height:5px}}
+.card{border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,30px);background:linear-gradient(140deg,rgba(12,18,45,.96),rgba(7,10,25,.95));box-shadow:0 0 26px color-mix(in srgb,var(--glow) 13%,transparent),inset 0 0 22px color-mix(in srgb,var(--glow2) 4%,transparent);margin:15px 0;transition:border-color 1s,box-shadow 1s}
+h2{font-size:clamp(20px,3vw,27px);margin:0 0 8px}p{line-height:1.65}.muted{color:var(--muted);font-size:14px;margin:0 0 17px}
+.inputrow{display:flex;gap:10px}input{min-width:0;flex:1;background:#070b1b;border:1px solid #35436c;border-radius:14px;padding:16px;color:white;font:inherit;outline:none}input:focus{border-color:var(--glow);box-shadow:0 0 0 3px color-mix(in srgb,var(--glow) 18%,transparent)}
+button,.btn{border:1px solid transparent;border-radius:14px;padding:14px 18px;font:inherit;font-weight:850;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:transform .2s,box-shadow .7s,filter .7s}
+button:hover,.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}.primary{background:linear-gradient(105deg,var(--glow2),var(--glow3),var(--glow));color:white;box-shadow:0 0 22px color-mix(in srgb,var(--glow2) 35%,transparent);background-size:180% 180%;animation:gradient 4s ease infinite}@keyframes gradient{50%{background-position:100% 50%}}
+.secondary{background:#111a37;color:#eaf7ff;border-color:var(--line)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:11px}.actions>*{flex:1}
+.status{min-height:24px;color:var(--glow);font-size:14px;margin-top:12px;line-height:1.5}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.feature{border:1px solid var(--line);border-radius:18px;padding:18px 13px;text-align:center;background:#090e22;box-shadow:0 0 18px color-mix(in srgb,var(--glow) 8%,transparent);transition:transform .35s,border-color 1s,box-shadow 1s}.feature:hover{transform:translateY(-6px)}.ico{font-size:27px;margin-bottom:7px;filter:drop-shadow(0 0 10px var(--glow))}.feature b{display:block;margin-bottom:5px}.feature small{color:var(--muted);line-height:1.5}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.step{padding:18px;border:1px solid var(--line);border-radius:18px;background:#090e22}.number{width:34px;height:34px;border:2px solid var(--glow2);border-radius:50%;display:grid;place-items:center;color:#fff;box-shadow:0 0 15px var(--glow2);font-weight:900;margin-bottom:12px}.step p{color:var(--muted);font-size:14px;margin-bottom:0}
+.notice{border:1px solid color-mix(in srgb,var(--glow2) 70%,transparent);border-radius:17px;padding:16px;background:linear-gradient(110deg,#17102c,#0b1026);color:#d7e4ff;font-size:14px;line-height:1.75}
+footer{display:flex;justify-content:space-between;gap:12px;align-items:center;color:#9ba9c7;font-size:12px;padding:20px 4px 0}
+@media(max-width:700px){nav{padding:12px}.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:36px;text-align:center}.pill{margin:auto}h1{letter-spacing:-1px}.tags{justify-content:center}.visual{min-height:260px}.phone{width:165px;height:245px}.orbit{width:230px}.features{grid-template-columns:repeat(2,1fr)}.steps{grid-template-columns:1fr}.inputrow{flex-direction:column}.actions{flex-direction:column}footer{flex-direction:column;text-align:center}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <div class="brand"><div class="brandmark">E</div><div>Emon <small style="display:block;font-size:11px;color:var(--muted);font-weight:600">TikTok Downloader</small></div></div>
+  <div class="navlinks"><a href="#home">হোম</a><a href="#download">ডাউনলোড</a><a href="#features">ফিচার</a><a href="#how">ব্যবহারবিধি</a></div>
+</nav>
+<section class="hero" id="home">
+  <div>
+    <div class="pill">✦ NEON EDITION · COLOR SHIFT EVERY 2 SECONDS</div>
+    <h1><span>Emon TikTok</span><br>Downloader</h1>
+    <p class="lead">TikTok ভিডিওর লিংক দাও, ভিডিও খোলো এবং উপলভ্য হলে সহজেই সেভ করো!</p>
+    <div class="tags"><div class="tag">⚡ স্মার্ট লিংক চেক</div><div class="tag">✦ নিয়ন লাইট ইফেক্ট</div><div class="tag">▣ মোবাইল ফ্রেন্ডলি</div></div>
+  </div>
+  <div class="visual" aria-hidden="true"><div class="orbit"></div><div class="phone"><div class="screen"><div style="font-weight:900;font-size:20px">♪ TikTok</div><div class="play">▶</div><small>EMon • VIDEO</small><div class="equalizer"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><small>NEON EXPERIENCE</small></div></div></div>
+</section>
+
+<section class="card" id="download">
+  <h2>🔗 TikTok ভিডিওর লিংক পেস্ট করো</h2>
+  <p class="muted">ভিডিও শেয়ার লিংক এখানে দাও। আমরা লিংক যাচাই করে TikTok-এ খুলব।</p>
+  <div class="inputrow"><input id="tiktokUrl" type="url" inputmode="url" placeholder="https://www.tiktok.com/..." autocomplete="url"><button class="primary" id="openTikTok">↗ ভিডিও খুলুন</button></div>
+  <div class="actions"><button class="secondary" id="pasteTikTok">📋 লিংক পেস্ট</button><button class="secondary" id="clear">✕ মুছে ফেলো</button></div>
+  <div class="status" id="ttStatus" role="status" aria-live="polite"></div>
+  <div style="height:1px;background:var(--line);margin:18px 0"></div>
+  <h2>⬇️ সরাসরি ভিডিও ফাইল</h2><p class="muted">শুধু অনুমোদিত সরাসরি MP4/WebM URL হলে ডাউনলোডের চেষ্টা করা যাবে।</p>
+  <input id="directUrl" type="url" inputmode="url" placeholder="https://example.com/video.mp4">
+  <div class="actions"><button class="primary" id="downloadDirect">ভিডিও ডাউনলোড চেষ্টা করো ↓</button></div>
+  <div class="status" id="directStatus" role="status" aria-live="polite"></div>
+</section>
+
+<section id="features"><h2 style="margin:28px 0 14px">✨ ওয়েবসাইটের ফিচার</h2><div class="features">
+  <div class="feature"><div class="ico">⚡</div><b>স্মার্ট লিংক</b><small>TikTok লিংক যাচাই করে খুলবে</small></div>
+  <div class="feature"><div class="ico">🌈</div><b>রঙিন নিয়ন</b><small>প্রতি ২ সেকেন্ডে লাইটের রং বদলাবে</small></div>
+  <div class="feature"><div class="ico">📱</div><b>মোবাইল রেডি</b><small>Android ফোনে ব্যবহার উপযোগী</small></div>
+  <div class="feature"><div class="ico">✨</div><b>স্মুথ অ্যানিমেশন</b><small>গ্লো, ফ্লোট ও বাটন ইফেক্ট</small></div>
+</div></section>
+
+<section id="how"><h2 style="margin:28px 0 14px">🚀 কীভাবে ব্যবহার করবে?</h2><div class="steps">
+  <div class="step"><div class="number">1</div><b>লিংক কপি করো</b><p>TikTok অ্যাপে ভিডিও খুলে Share → Copy link চাপো।</p></div>
+  <div class="step"><div class="number">2</div><b>লিংক পেস্ট করো</b><p>উপরের বক্সে লিংক পেস্ট করে ভিডিও খুলে নাও।</p></div>
+  <div class="step"><div class="number">3</div><b>ভিডিও সেভ করো</b><p>TikTok-এ Save video অপশন থাকলে সেটি ব্যবহার করো।</p></div>
+</div></section>
+
+<section class="notice" style="margin-top:18px"><b>💡 গুরুত্বপূর্ণ:</b> GitHub Pages শুধু static hosting, তাই এটি নিজে যেকোনো TikTok শেয়ার লিংক থেকে ভিডিও ফাইল বের করতে পারে না। ভিডিওর মালিক ডাউনলোড বন্ধ রাখলে Save video অপশন নাও থাকতে পারে। সরাসরি MP4 ডাউনলোডও অন্য সার্ভারের CORS/অনুমতির কারণে ব্যর্থ হতে পারে। শুধু অনুমতি থাকা ভিডিও সংরক্ষণ করো।</section>
+<footer><div>© <span id="year"></span> Emon TikTok Downloader</div><div>Made with 💜 in Bangladesh</div></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+$('year').textContent=new Date().getFullYear();
+// Ambient light palette changes every 2 seconds with smooth CSS transitions.
+const palettes=[
+ ['#00eaff','#ff00d4','#6c4dff'],
+ ['#ff2b79','#00f0ff','#7c3aed'],
+ ['#a3ff12','#00d9ff','#ff3cac'],
+ ['#ff9d00','#ff00c8','#4d5dff'],
+ ['#00ffa8','#7b61ff','#ff3b6b'],
+ ['#48a8ff','#f900ff','#00f5d4']
+];
+let paletteIndex=0;
+function setPalette(p){document.documentElement.style.setProperty('--glow',p[0]);document.documentElement.style.setProperty('--glow2',p[1]);document.documentElement.style.setProperty('--glow3',p[2]);}
+setPalette(palettes[0]);
+setInterval(()=>{paletteIndex=(paletteIndex+1)%palettes.length;setPalette(palettes[paletteIndex]);},2000);
+function isTikTok(raw){try{const u=new URL(raw.trim());const h=u.hostname.toLowerCase().replace(/^www\./,'');return (h==='tiktok.com'||h.endsWith('.tiktok.com'))&&['https:','http:'].includes(u.protocol)}catch(e){return false}}
+$('openTikTok').addEventListener('click',()=>{const v=$('tiktokUrl').value.trim();if(!v){$('ttStatus').textContent='আগে TikTok লিংক পেস্ট করো।';return}if(!isTikTok(v)){$('ttStatus').textContent='সঠিক TikTok লিংক দাও।';return}$('ttStatus').textContent='TikTok ভিডিও নতুন ট্যাবে খোলা হচ্ছে…';window.open(v,'_blank','noopener,noreferrer')});
+$('pasteTikTok').addEventListener('click',async()=>{try{const v=await navigator.clipboard.readText();if(!v)throw Error();$('tiktokUrl').value=v.trim();$('ttStatus').textContent=isTikTok(v)?'লিংক পেস্ট হয়েছে।':'পেস্ট হয়েছে, তবে এটি TikTok লিংক নয়।'}catch(e){$('ttStatus').textContent='বক্সে চেপে ধরে Paste বেছে নাও।';$('tiktokUrl').focus()}});
+$('downloadDirect').addEventListener('click',async()=>{const raw=$('directUrl').value.trim(),s=$('directStatus');if(!raw){s.textContent='সরাসরি MP4/WebM লিংক দাও।';return}let u;try{u=new URL(raw);if(!['https:','http:'].includes(u.protocol))throw Error()}catch(e){s.textContent='সঠিক http/https লিংক দাও।';return}s.textContent='ডাউনলোড চেষ্টা করা হচ্ছে…';try{const r=await fetch(u.href);if(!r.ok)throw Error();const blob=await r.blob();if(!blob.type.startsWith('video/')&&!/\.mp4($|\?)/i.test(u.href)&&!/\.webm($|\?)/i.test(u.href))throw Error();const a=document.createElement('a'),obj=URL.createObjectURL(blob);a.href=obj;a.download='emon-video.'+(blob.type.includes('webm')?'webm':'mp4');document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(obj),15000);s.textContent='ডাউনলোড শুরু হয়েছে। Downloads ফোল্ডার দেখো।'}catch(e){s.textContent='এই লিংক থেকে সরাসরি ডাউনলোড হয়নি। TikTok শেয়ার লিংক হলে উপরের বক্সে দিয়ে TikTok-এর Save video অপশন ব্যবহার করো।'}});
+$('clear').addEventListener('click',()=>{$('tiktokUrl').value='';$('directUrl').value='';$('ttStatus').textContent='';$('directStatus').textContent='সব মুছে ফেলা হয়েছে।'});
+$('tiktokUrl').addEventListener('keydown',e=>{if(e.key==='Enter')$('openTikTok').click()});
+</script>
+</body>
+</html>
